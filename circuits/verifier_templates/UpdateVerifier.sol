@@ -21,26 +21,10 @@ contract UpdateVerifier {
         proof.C = ProofLib.G1Point(p[6], p[7]);
         ProofLib.VerifyingKey memory vk = updateVerifyingKey();
         ProofLib.G1Point memory vk_x = ProofLib.G1Point(0, 0);
-
-        for (uint i = 0; i < 8; i++) {
-            if (p[i] >=ProofLib.snark_prime_p) revert P();
-            if (p[i] >=ProofLib.snark_scalar_field) revert ProofLib.GteSnarkScalarField();
-        }
-
         for (uint i = 0; i < 42;) {
             if (input[i] >= ProofLib.snark_scalar_field)
                 revert ProofLib.GteSnarkScalarField();
-            if (input[i] >= ProofLib.snark_prime_p)
-                revert P();
             vk_x = vk.IC[i+1].scalar_mul(input[i]).addition(vk_x);
-            if (vk_x.X >= ProofLib.snark_scalar_field)
-                revert ProofLib.GteSnarkScalarField();
-            if (vk_x.Y >= ProofLib.snark_scalar_field)
-                revert ProofLib.GteSnarkScalarField();
-            if (vk_x.X >= ProofLib.snark_prime_p)
-                revert P();
-            if (vk_x.Y >= ProofLib.snark_prime_p)
-                revert P();
             unchecked { i += 1; }
         }
         vk_x = vk.IC[0].addition(vk_x);
