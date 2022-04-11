@@ -73,7 +73,7 @@ $ npx hardhat test
 
 ![..............](./img/hhtest.jpg)
 
-There's a way faster testing environment: [foundry](https://getfoundry.sh/). I'd like to make a foundry fork of this repository! I could also improve the speed of this test suite by saving copies of the proofs instead of recomputing them every time.
+There's a way faster testing environment: [foundry](https://getfoundry.sh/). I'm working on a foundry fork of this repository, so there's no need for you to steal my thunder! I could also improve the speed of this hardhat test suite by precomputing the proofs during the build step.
 
 ## Test Results
 ![Filtered by foundry :(](./img/test_results.png)

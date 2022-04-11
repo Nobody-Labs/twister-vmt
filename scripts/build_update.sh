@@ -50,15 +50,8 @@ then
 	npx snarkjs zkesv \
 		./circuits/out/update_final.zkey \
 		./circuits/out/update_verifier.sol
+    python3 ./scripts/export_update_vkey.py
     echo update verifier contract exported!
 else
     echo update verifier contract already exported!
-fi
-
-if [ ! -f "./contracts/verifiers/UpdateVerifier.sol" ]
-then
-	python3 ./scripts/export_update_vkey.py
-    echo update verifier contract updated!
-else
-    echo update verifier contract already updated!
 fi

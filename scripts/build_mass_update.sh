@@ -58,15 +58,8 @@ then
 	npx snarkjs zkesv \
 		./circuits/out/mass_update_final.zkey \
 		./circuits/out/mass_update_verifier.sol
+    python3 ./scripts/export_mass_update_vkey.py
     echo mass_update verifier contract exported!
 else
     echo mass_update verifier contract already exported!
-fi
-
-if [ ! -f "./contracts/verifiers/MassUpdateVerifier.sol" ]
-then
-	python3 ./scripts/export_mass_update_vkey.py
-    echo mass_update verifier contract updated!
-else
-    echo mass_update verifier contract already updated!
 fi
