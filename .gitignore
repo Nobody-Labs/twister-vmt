@@ -1,0 +1,7 @@
+build/
+node_modules
+*.log
+*.lock
+overflow
+.env
+powersOfTau28_hez_final_19.ptau
