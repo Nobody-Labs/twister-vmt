@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.10;
 
-import "./verifiers/UpdateVerifier2.sol";
-import "./verifiers/MassUpdateVerifier2.sol";
+import "./verifiers/UpdateVerifier.sol";
+import "./verifiers/MassUpdateVerifier.sol";
 
 contract VerifiableMerkleTree is UpdateVerifier, MassUpdateVerifier {
     uint public nextIndex;

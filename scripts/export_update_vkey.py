@@ -17,6 +17,6 @@ if __name__ == '__main__':
     with open('./circuits/verifier_templates/UpdateVerifier.sol', 'r') as f:
         update_template = f.read()
 
-    with open('./contracts/verifiers/UpdateVerifier2.sol', 'w+') as f:
+    with open('./contracts/verifiers/UpdateVerifier.sol', 'w+') as f:
         k = update_template.replace('// VERIFYING_KEY', update_vkey)
         f.write(k.replace('Pairing', 'ProofLib'))
