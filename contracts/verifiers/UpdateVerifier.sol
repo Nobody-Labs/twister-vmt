@@ -278,5 +278,4 @@ contract UpdateVerifier {
         );
     }
 
-    error P();
 }

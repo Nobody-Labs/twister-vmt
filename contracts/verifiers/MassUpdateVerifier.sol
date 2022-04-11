@@ -322,4 +322,5 @@ contract MassUpdateVerifier {
             vk.delta2
         );
     }
+
 }
