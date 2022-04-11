@@ -1,3 +1,5 @@
+This repository is a work in progress.
+
 # Verifiable Merkle Tree
 The Verifiable Merkle Tree (VMT) is a new kind of SNARK data structure that is powered by Computational Integrity Proofs (CIPS). The VMT is useful for maintaining an up-to-date merkle tree of commitments on an EVM based blockchain, e.g. Ethereum, which is so popular that demand for blockspace causes gas prices to be high at times. VMT helps reduce costs to individual users, lowering the cost barrier for use-cases like on-chain privacy.
 
@@ -17,13 +19,30 @@ This contract implements the Verifiable Merkle Tree. It has two methods for upda
     - inserts 10 leaves using a zk proof
 
 ## MerkleTree.sol
-This contract implements the incremental merkle tree. Its state is updated one-at-a-time and it's included in this repo to show that the VMT matches the state of this tree after both kinds of updates.
+This contract is the final solidity interface for the optimized incremental merkle tree. Its state is updated one-at-a-time. It's included in this repo to show that the VMT matches the state of this tree after both kinds of updates. The contract is extremely optimized: it uses a customized, stack-neutral EVM bytecode implementation of the MiMC sponge hash function.
+
+## MerkleTreeLib.sol
+This contract is a library that we include to get the solidity compiler to link the previous contract to the next contract's address.
+
+## MerkleTreeWithHistory.yul
+This contract was translated from solidity into yul, from [tornado](https://github.com/tornadocash/tornado-core/blob/master/contracts/MerkleTreeWithHistory.sol)'s implementation, with some modifications to accommodate the specialized bytecode.
 
 ## ProofLib.sol
 Contains a modified version of the pairing library that's auto-generated from snarkjs.
 
 ## UpdateVerifier.sol and MassUpdateVerifier.sol
 Contains optimized versions of the snarkjs auto-generated verifiers. Every time you build the circuits, these contracts are updated.
+
+# Scripts
+
+## build_mass_update.sh and build_update.sh
+These bash scripts call the commands needed to compile the circuits, run a local trusted setup, then export the SNARK keys into relevant files.
+
+## export_mass_update_vkey.py and export_update_vkey.py
+These python scripts use custom gas-optimized templates for verifier contracts. They retrieve the verifying key instatiation code from the snarkjs generated verifier contracts, and it injects this code into the templates, so you never have to manually edit contracts, you just get the best versions!
+
+## calculateSubtrees.js
+This is the offchain computation that calculates the next subtree state of the merkle tree. This kind of computation overcomes a big hurdle for EVM-based SNARK proofs: the need for a solidity implementation of the hash function, which is usually expensive (as we see with MiMC in MerkleTreeWithHistory). Using off-chain computations, we can rely solely on optimized code, which would be the next step for the off-chain side of things (maybe a lower level language implementation of this script).
 
 # Dependencies
  - node v12.22.2
