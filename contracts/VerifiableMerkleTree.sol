@@ -7,6 +7,12 @@ import "./verifiers/MassUpdateVerifier.sol";
 contract VerifiableMerkleTree is UpdateVerifier, MassUpdateVerifier {
     uint public nextIndex;
     uint[20] public filledSubtrees;
+    uint public latestIndex;
+    mapping(uint => uint) commitments;
+    uint public constant TREE_CAPACITY = 2 ** 20;
+
+    event LeafCommitted(uint leaf, uint index);
+    event TreeUpdated(uint previousIndex, uint nextIndex);
 
     constructor () {
         filledSubtrees = [
@@ -35,6 +41,19 @@ contract VerifiableMerkleTree is UpdateVerifier, MassUpdateVerifier {
 
     function currentRoot() public view returns (uint) {
         return filledSubtrees[19];
+    }
+
+    function getFilledSubtrees() public view returns (uint[20] memory) {
+        return filledSubtrees;
+    }
+
+    function commit(uint leaf) public returns (uint) {
+        uint i = latestIndex;
+        if (i == TREE_CAPACITY)
+            revert TreeIsFull();
+        commitments[latestIndex] = leaf;
+        unchecked { latestIndex++; }
+        return latestIndex;
     }
 
     function massUpdate(
@@ -112,4 +131,5 @@ contract VerifiableMerkleTree is UpdateVerifier, MassUpdateVerifier {
 
     error InvalidUpdateProof();
     error InvalidMassUpdateProof();
+    error TreeIsFull();
 }
