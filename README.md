@@ -60,17 +60,16 @@ Alternatively, instead of `yarn`, you can use `npm install`.
 # Build
 We have to build the circuits, because git lfs doesn't play well over ssh. We only have to build the circuits once, which includes a step where we have to download a ~0.5GiB file. The file is `powersOfTau28_hez_final_19.ptau`, and it's used to setup the [mass_deposit](./circuits/mass_update.circom) circuit.
 
-There's two ways you can build the circuits. You can use the Makefile.
+There's two ways you can build the circuits, using the Makefile or individually.
+
+Makefile:
 ```sh
 $ make all
 ```
 
-You can build them individually by running the following bash scripts:
+Build them individually by running the following bash scripts:
 ```sh
 $ ./scripts/build_update.sh
-```
-
-```sh
 $ ./scripts/build_mass_update.sh
 ```
 
@@ -79,7 +78,7 @@ If the scripts fail, try setting their permissions to executable.
 $ sudo chmod 755 ./scripts/build_update.sh
 $ sudo chmod 755 ./scripts/build_mass_update.sh
 ```
-The mass_update build will take a while, because it has to retrieve the powers of tau file, and the keys are much larger. If we migrate to poseidon, then this circuit should shrink considerably.
+The mass_update build will take a while, because it has to retrieve the 'powersOfTau28_hez_final_19.ptau` file, and the keys are much larger. If we migrate to poseidon, then this circuit should shrink considerably.
 
 Each build script will compile the circuit, generate proving and verifying keys, export a solidity contract, and then insert the freshly built verifying key into the optimized verifier contracts in [verifiers](./contracts/verifiers/). You can see the templates for the optimized verifier contracts in [verifier_templates](./circuits/verifier_templates/).
 
